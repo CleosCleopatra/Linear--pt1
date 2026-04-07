@@ -71,3 +71,9 @@ println("area for each crop =  ", value.(a.data))
 println("fuel amounts =  ", value.(B.data)) 
 println("petrol diesel amount =  ", value(P))
 println("Methanol amount =  ", value(M))    
+
+#ideal area for each crop = [850, 0, 750]
+#Fuel amounts = [0, 214285.7142857143, 552803.7857142857]
+#Petrol diesel amount = 150 000
+#Methanol amount = 137 131.0
+#Profit = 548 163.0342857142
