@@ -9,7 +9,6 @@ include(parameter_value)
 
 function build_model(parameter_value::String)
   # The diet problem
-  println("HUHUHUH")
   crop2idx = Dict{String,Int64}()
   fuel2idx = Dict{String,Int64}()
   for i in I
@@ -58,13 +57,6 @@ function build_model(parameter_value::String)
   return m, a, B, P, M
 end
 
-
-#The ? can be put infront of commands, variables, and functions to get more information.
-#Note that is applied on the main object, hence to ask about an element in an array do:
-#element = array[5]
-#?element
-
-#Build the model and get variables and constraints back (see intro_mod.jl)
 include("parameter_values.jl")
 
 m, a, B, P, M = build_model("parameter_values.jl")
@@ -72,11 +64,10 @@ print(m) # prints the model instance
 
 set_optimizer(m, Gurobi.Optimizer)
 set_optimizer_attribute(m, "OutputFlag", 1)
-set_optimizer(m, Clp.Optimizer)
 optimize!(m)
 
 println("Objective value =  ", objective_value(m))   		# display the optimal solution
-println("area for each crop =  ", value.(a.data))               # f.(arr) applies f to all elements of arr
+println("area for each crop =  ", value.(a.data))               
 println("fuel amounts =  ", value.(B.data)) 
 println("petrol diesel amount =  ", value(P))
 println("Methanol amount =  ", value(M))    
