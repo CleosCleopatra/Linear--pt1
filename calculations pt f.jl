@@ -48,17 +48,17 @@ function build_model(parameter_value_sensitivity::String, water_dem)
   @constraint(m, V >= 0)
   B_tot = 0.9 * V
   M = 0.2 * V
-  @variable(m, B[fuels] >= 0) #Amount of the differnt fuel types
-  @constraint(m, sum(B[j] * _f(j) for j in fuels)<= B_tot)
-  D = sum(B[j] * (1 - _f(j)) for j in fuels)
+  @variable(m, F[fuels] >= 0) #Amount of the differnt fuel types
+  @constraint(m, sum(F[j] * _f(j) for j in fuels)<= B_tot)
+  D = sum(F[j] * (1 - _f(j)) for j in fuels)
   @constraint(m, D >= 0)
   @constraint(m, D <= _D_max)
 
-  @objective(m, Max, sum(_c(j) * B[j] * (1-_t(j)) for j in fuels) - D*_D_c - M * _M_c)
+  @objective(m, Max, sum(_c(j) * F[j] * (1-_t(j)) for j in fuels) - D*_D_c - M * _M_c)
 
-  @constraint(m, sum(B[j] for j in fuels) >= _F_min)
+  @constraint(m, sum(F[j] for j in fuels) >= _F_min)
 
-  return m, a, B, D, M
+  return m, a, F, D, M
 end
 
 include("parameter_values_sensitivity_f.jl")
@@ -70,7 +70,7 @@ println("Sensitivity analysis for parameter values: ")
 non_zero = 0
 #global worst_work = [y[1], w[1], o[1]]
 for j in 1:length(water_demand)
-    m, a, B, D, M = build_model("parameter_values_sensitivity_f.jl", water_demand[j])
+    m, a, F, D, M = build_model("parameter_values_sensitivity_f.jl", water_demand[j])
     #print(m) # prints the model instance
 
     #set_optimizer(m, model)
